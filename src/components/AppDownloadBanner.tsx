@@ -8,7 +8,7 @@ export function AppDownloadBanner() {
   if (dismissed) return null;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md">
+    <div className="fixed bottom-6 right-6 z-50 w-80">
       <div className="glass border border-border/60 rounded-2xl shadow-2xl px-5 py-4 flex items-center gap-4"
         style={{ boxShadow: '0 8px 40px 0 hsl(175 80% 40% / 0.18)' }}>
         
