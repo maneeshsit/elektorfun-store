@@ -3,6 +3,7 @@ import { Hero } from '@/components/Hero';
 import { FeaturedProducts } from '@/components/FeaturedProducts';
 import { CartSidebar } from '@/components/CartSidebar';
 import { Zap } from 'lucide-react';
+import { AppDownloadBanner } from '@/components/AppDownloadBanner';
 
 const Index = () => {
   return (
@@ -31,6 +32,7 @@ const Index = () => {
           </div>
         </footer>
       </main>
+      <AppDownloadBanner />
     </div>
   );
 };
