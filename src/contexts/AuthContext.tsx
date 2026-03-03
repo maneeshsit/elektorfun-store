@@ -16,8 +16,19 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock user database (in a real app, this would be a backend)
-const mockUsers: { email: string; password: string; name: string }[] = [];
+// Persist mock users in localStorage so they survive page reloads
+function getStoredUsers(): { email: string; password: string; name: string }[] {
+  try {
+    const stored = localStorage.getItem('elektorfun_users');
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveUsers(users: { email: string; password: string; name: string }[]) {
+  localStorage.setItem('elektorfun_users', JSON.stringify(users));
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
@@ -29,7 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 500));
     
-    const foundUser = mockUsers.find(
+    const users = getStoredUsers();
+    const foundUser = users.find(
       (u) => u.email === email && u.password === password
     );
     
@@ -50,12 +62,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 500));
     
-    const exists = mockUsers.some((u) => u.email === email);
+    const users = getStoredUsers();
+    const exists = users.some((u) => u.email === email);
     if (exists) {
       return false;
     }
     
-    mockUsers.push({ email, password, name });
+    users.push({ email, password, name });
+    saveUsers(users);
     const userData = {
       id: crypto.randomUUID(),
       email,
